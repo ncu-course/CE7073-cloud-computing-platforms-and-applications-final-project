@@ -56,3 +56,8 @@ command.
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+
+
+
+cdk deploy --outputs-file outputs.json
+python3 upload_file.py

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>按鈕請求範例</title>
+</head>
+<body>
+  <h1>按鈕請求範例</h1>
+  <button id="requestPath1">請求 /path1</button>
+  <button id="requestPath2">請求 /path2</button>
+  <div id="result"></div>
+
+  <script>
+    let baseRoute = ""; // 初始化 baseRoute
+
+    // 從 config.json 讀取 baseRoute
+    fetch('config.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('無法加載 config.json');
+        }
+        return response.json();
+      })
+      .then(config => {
+        baseRoute = config.baseRoute; // 假設 JSON 文件中有 baseRoute 字段
+        if (!baseRoute) {
+          throw new Error('config.json 中缺少 baseRoute');
+        }
+      })
+      .catch(error => {
+        document.getElementById('result').innerText = '配置加載失敗: ' + error.message;
+      });
+
+    // 定義按鈕事件
+    document.getElementById('requestPath1').addEventListener('click', function() {
+      const apiUrl = `${baseRoute}/path1`; // 拼接完整路徑
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = '請求失敗: ' + error.message;
+        });
+    });
+
+    document.getElementById('requestPath2').addEventListener('click', function() {
+      const apiUrl = `${baseRoute}/path2`; // 拼接完整路徑
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          document.getElementById('result').innerText = '請求失敗: ' + error.message;
+        });
+    });
+  </script>
+</body>
+</html>

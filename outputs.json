@@ -1,0 +1,7 @@
+{
+  "HelloCdkStack": {
+    "ApiUrl": "https://9hbtu3y5cb.execute-api.us-east-1.amazonaws.com/prod/",
+    "BucketName": "hellocdkstack-websitebucket75c24d94-7fkfafmp1bk1",
+    "MultiPathApiEndpointE919A68D": "https://9hbtu3y5cb.execute-api.us-east-1.amazonaws.com/prod/"
+  }
+}
