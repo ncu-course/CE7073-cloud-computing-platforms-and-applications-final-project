@@ -2,13 +2,13 @@ from aws_cdk import (
     Stack,
     aws_lambda as _lambda, # Import the Lambda module
     CfnOutput,
+    aws_iam as iam,  # Import IAM module
     aws_s3 as s3,
     RemovalPolicy,
     aws_apigateway as apigateway,
     aws_s3_deployment as s3deploy,
+    Duration
 )
-import os
-import shutil
 
 from constructs import Construct
 
@@ -17,44 +17,38 @@ class HelloCdkStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        # 第一個 Lambda 函數
-        function_one = _lambda.Function(
-            self, "FunctionOne",
-            runtime=_lambda.Runtime.NODEJS_20_X,
-            handler="index.handler",
-            code=_lambda.Code.from_inline(
-                """
-                exports.handler = async function(event) {
-                    return {
-                        statusCode: 200,
-                        headers: {
-                            "Access-Control-Allow-Origin": "*", // 允許所有來源
-                        },
-                        body: JSON.stringify('Hello from /path1!'),
-                    };
-                };
-                """
-            ),
+        function_chat = _lambda.Function(
+            self, "FunctionChat",
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            handler="lambda_chat.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_functions/chat"),
         )
 
-        # 第二個 Lambda 函數
-        function_two = _lambda.Function(
-            self, "FunctionTwo",
-            runtime=_lambda.Runtime.NODEJS_20_X,
-            handler="index.handler",
-            code=_lambda.Code.from_inline(
-                """
-                exports.handler = async function(event) {
-                    return {
-                    statusCode: 200,
-                    headers: {
-                            "Access-Control-Allow-Origin": "*", // 允許所有來源
-                    },
-                    body: JSON.stringify('Hello from /path2!'),
-                    };
-                };
-                """
-            ),
+        # 添加 Bedrock 訪問權限到 Lambda 函數角色
+        function_chat.role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonBedrockFullAccess")
+        )
+
+        function_image_generate = _lambda.Function(
+            self, "FunctionImageGenerate",
+            runtime=_lambda.Runtime.PYTHON_3_9,
+            handler="lambda_imaging.lambda_handler",
+            code=_lambda.Code.from_asset("lambda_functions/image_generate"),
+            timeout = Duration.seconds(30)
+
+        )
+
+        # 添加 Bedrock 訪問權限到 Lambda 函數角色
+        function_image_generate.role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonBedrockFullAccess")
+        )
+
+
+        function_classify = _lambda.DockerImageFunction(
+            self, "FunctionClassify",
+            code=_lambda.DockerImageCode.from_image_asset("lambda_functions/classify"),
+            memory_size=1024,
+            timeout = Duration.seconds(15)
         )
 
         # 創建 API Gateway
@@ -63,8 +57,8 @@ class HelloCdkStack(Stack):
             rest_api_name="MultiPathApi",
             default_cors_preflight_options={
                 "allow_origins": ["*"],  # 設置允許的來源，例如 ['https://example.com']
-                "allow_methods": ["GET", "POST", "OPTIONS"],  # 設置允許的 HTTP 方法
-                "allow_headers": ["Content-Type", "Authorization"],  # 允許的標頭
+                "allow_methods": ["*"],  # 設置允許的 HTTP 方法
+                "allow_headers": ["*"],  # 允許的標頭
             },
 
             deploy_options=apigateway.StageOptions(
@@ -72,15 +66,17 @@ class HelloCdkStack(Stack):
             )
         )
 
-        # 添加第一個路徑 /path1
-        path1 = api.root.add_resource("path1")
-        path1_integration = apigateway.LambdaIntegration(function_one)
-        path1.add_method("GET", path1_integration)  # 支援 GET 方法
+        path_chat = api.root.add_resource("chat")
+        path_chat_integration = apigateway.LambdaIntegration(function_chat)
+        path_chat.add_method("POST", path_chat_integration)
 
-        # 添加第二個路徑 /path2
-        path2 = api.root.add_resource("path2")
-        path2_integration = apigateway.LambdaIntegration(function_two)
-        path2.add_method("GET", path2_integration)  # 支援 GET 方法
+        path_image_generate = api.root.add_resource("image_generate")
+        path_image_generate_integration = apigateway.LambdaIntegration(function_image_generate)
+        path_image_generate.add_method("POST", path_image_generate_integration)
+
+        path_classify = api.root.add_resource("classify")
+        path_classify_integration = apigateway.LambdaIntegration(function_classify)
+        path_classify.add_method("POST", path_classify_integration)
 
         website_bucket = s3.Bucket(self, "WebsiteBucket",
             website_index_document="index.html",

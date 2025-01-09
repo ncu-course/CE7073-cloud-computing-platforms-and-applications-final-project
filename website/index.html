@@ -1,61 +1,55 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>按鈕請求範例</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God Bless You</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>按鈕請求範例</h1>
-  <button id="requestPath1">請求 /path1</button>
-  <button id="requestPath2">請求 /path2</button>
-  <div id="result"></div>
+    <header>
+        <h1>God Bless You!</h1>
+    </header>
+    <main>
+        <section>
+            <!-- Photo Upload Section -->
+            <div class="Button">
+                <label for="photoInput" class="button">Photo Upload</label>
+                <input type="file" id="photoInput" accept="image/*" hidden>
+            </div>
+            <!-- Image Classificaiton and Text Output Section -->
+            <div class="output-section">
+                <h2>Physiognomy Classification</h2>
+                <div id="imageclassifyOutput" class="output-box"></div>
+            </div>
+            <!-- Fourtune Imaging Section -->
+            <div class="Button">
+                <button id="fortuneImage" class="button">Fortune Imaging</button>
+            </div>
+            <!-- Image Output Section -->
+            <div class="output-section">
+                <div id="imageOutput" class="output-box"></div>
+            </div>
+        </section>
+    </main>
 
-  <script>
-    let baseRoute = ""; // 初始化 baseRoute
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <span>Chat</span>
+            <button id="closeChat">X</button>
+        </div>
+        <div id="chatBody">
+            <!-- 示例訊息 -->
+            <p class="bot-message">Bot: Welcome to the chat!</p>
+        </div>
+        <div class="chat-footer">
+            <textarea id="chatInput" rows="1" placeholder="Type your message..."></textarea>
+            <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <button id="openChat" class="chat-button">Chat</button>
 
-    // 從 config.json 讀取 baseRoute
-    fetch('config.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('無法加載 config.json');
-        }
-        return response.json();
-      })
-      .then(config => {
-        baseRoute = config.baseRoute; // 假設 JSON 文件中有 baseRoute 字段
-        if (!baseRoute) {
-          throw new Error('config.json 中缺少 baseRoute');
-        }
-      })
-      .catch(error => {
-        document.getElementById('result').innerText = '配置加載失敗: ' + error.message;
-      });
-
-    // 定義按鈕事件
-    document.getElementById('requestPath1').addEventListener('click', function() {
-      const apiUrl = `${baseRoute}/path1`; // 拼接完整路徑
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('result').innerText = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = '請求失敗: ' + error.message;
-        });
-    });
-
-    document.getElementById('requestPath2').addEventListener('click', function() {
-      const apiUrl = `${baseRoute}/path2`; // 拼接完整路徑
-      fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('result').innerText = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-          document.getElementById('result').innerText = '請求失敗: ' + error.message;
-        });
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>

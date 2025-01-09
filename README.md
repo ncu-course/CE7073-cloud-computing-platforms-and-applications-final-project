@@ -1,63 +1,67 @@
+# God Bless You
 
-# Welcome to your CDK Python project!
+"God Bless You" is a project designed to blend traditional fortune-telling practices with modern technology, using artificial intelligence (AI) and cloud services to provide real-time facial analysis and fortune-telling advice. This innovative solution addresses common challenges faced in traditional practices, such as:
 
-This is a blank project for CDK development with Python.
+- Lack of instant responses
+- Limited consultation time
+- Unsatisfactory consultation quality
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+With "God Bless You," users can experience convenient, instant, and high-quality fortune-telling services.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Features
+- Real-time facial analysis
+- AI-driven fortune-telling advice
+- Cloud-based architecture for scalability and reliability
 
-To manually create a virtualenv on MacOS and Linux:
+## Technology Stack
+This project utilizes AWS services and is built entirely using Infrastructure as Code (IaC).
 
-```
+## Setup Instructions
+
+### 1. Create a Virtual Environment
+To start, create a Python virtual environment:
+```bash
 $ python3 -m venv .venv
 ```
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
+### 2. Activate the Virtual Environment
+Activate the virtual environment:
+```bash
 $ source .venv/bin/activate
 ```
 
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
+### 3. Install Dependencies
+Once the virtual environment is activated, install the required dependencies:
+```bash
 $ pip install -r requirements.txt
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
+### 4. Synthesize the CloudFormation Template
+Generate the CloudFormation template for deployment:
+```bash
 $ cdk synth
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+### 5. Deploy the Application
+Deploy the application and save the outputs to a file:
+```bash
+$ cdk deploy --outputs-file outputs.json
+```
 
-## Useful commands
+### 6. Upload Required Files
+Run the script to upload necessary files:
+```bash
+$ python3 upload_file.py
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+### 7. Clean Up Resources
+To destroy all deployed resources:
+```bash
+$ cdk destroy
+```
 
-Enjoy!
+## Notes
+- Ensure that AWS CLI is configured with the appropriate credentials and permissions before deploying.
+- Review the `requirements.txt` file to verify all required Python libraries are listed.
 
-
-
-cdk deploy --outputs-file outputs.json
-python3 upload_file.py
+With "God Bless You," traditional fortune-telling meets modern technology for a seamless and enriched user experience.

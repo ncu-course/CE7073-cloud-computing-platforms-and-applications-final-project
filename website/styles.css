@@ -1,0 +1,207 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-image: url('images/background.png'); /* Added local background image */
+    background-size: cover; /* Ensure image covers the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image tiling */
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Main Section */
+main {
+    padding: 20px;
+}
+
+.Button .button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative; /* 相對定位 */
+    top: 10px; /* 向下移動 20px */
+}
+
+.Button .button:hover {
+    background-color: #0056b3;
+}
+
+.output-section {
+    margin: 10px 0;
+}
+
+.output-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    background-color: #0ABAB5; /* 設置背景顏色為藍色 */
+    color: white; /* 設置文字顏色為白色 */
+    padding: 10px; /* 添加內邊距 */
+    border: 2px solid #0ABAB5; /* 設置邊框顏色為藍色 */
+    border-radius: 5px; /* 添加圓角 */
+    width: 15%;
+    margin: 0 auto; /* 置中對齊 */
+    box-sizing: border-box; /* 包含內邊距和邊框在內的總寬度 */
+}
+
+.output-box {
+    max-width: 550px; /* Increased max-width by 1.5 times */
+    width: 300px; /* Increased width by 1.5 times */
+    height: 275px; /* Increased height by 1.5 times */
+    margin: 0 auto;
+    border: 5px solid black; /* Changed border style to solid */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    color: #007bff; /* Changed text color to black */
+    background-color: transparent; /* Changed background to transparent */
+    font-weight: bold; /* 設置文字為粗體 */
+}
+
+.output-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Chat Widget */
+.chat-widget {
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    width: 600px;
+    height: 600px;
+    border: 1px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 聊天訊息樣式 */
+.bot-message {
+    text-align: left;
+    background-color: #e6e6e6;
+    color: #333;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin: 5px 0;
+    max-width: 70%;
+    align-self: flex-start;
+    display: inline-block;
+}
+
+.user-message {
+    text-align: right;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin: 5px 0;
+    max-width: 70%;
+    align-self: flex-end;
+    display: inline-block;
+}
+
+#chatBody {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto; /* 添加垂直滾動條 */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    flex: 1; /* 讓聊天訊息區域填滿剩餘空間 */
+}
+
+.chat-footer {
+    display: flex;
+    padding: 10px;
+    border-radius: 0 0 10px 10px;
+}
+
+.chat-footer input {
+    flex: 1;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.chat-footer textarea {
+    flex: 1;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none; /* 禁用手動調整大小 */
+    overflow: hidden; /* 隱藏滾動條 */
+    word-wrap: break-word; /* 自動換行 */
+    height: 15px; /* 固定高度 */
+}
+
+.chat-footer button {
+    margin-left: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.chat-footer button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat Button */
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
